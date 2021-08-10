@@ -6,6 +6,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface MoviesRepository {
 
-    fun getMovies(page: Int, language: String): Flow<List<Movie>>
+    fun getMovies(language: String): Flow<List<Movie>>
 
 }

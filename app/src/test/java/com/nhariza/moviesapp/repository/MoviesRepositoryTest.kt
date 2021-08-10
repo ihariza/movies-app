@@ -49,7 +49,7 @@ class MoviesRepositoryTest {
     @Test
     fun `given an empty list, getMovies should return an empty list`() = runBlockingTest {
         val responseDtoBuilder = ResponseDtoBuilder<List<MovieDto>>()
-            .withResults(listOf<MovieDto>())
+            .withResults(listOf())
 
         verifyGetMoviesWith(responseDtoBuilder, responseDtoBuilder.build().results?.toModel())
     }
@@ -73,7 +73,7 @@ class MoviesRepositoryTest {
                 moviesService.getPopularMovies(PAGE, LANGUAGE)
             } returns responseDtoBuilder.build()
 
-            val getMoviesFlow = moviesRepository.getMovies(PAGE, LANGUAGE)
+            val getMoviesFlow = moviesRepository.getMovies(LANGUAGE)
 
             getMoviesFlow
                 .catch {
@@ -90,7 +90,7 @@ class MoviesRepositoryTest {
                 moviesService.getPopularMovies(PAGE, LANGUAGE)
             } throws ClassCastException()
 
-            val getMoviesFlow = moviesRepository.getMovies(PAGE, LANGUAGE)
+            val getMoviesFlow = moviesRepository.getMovies(LANGUAGE)
 
             getMoviesFlow
                 .catch { assertTrue(it is ClassCastException) }
@@ -105,7 +105,7 @@ class MoviesRepositoryTest {
             moviesService.getPopularMovies(PAGE, LANGUAGE)
         } returns responseDtoBuilder.build()
 
-        val getMoviesFlow = moviesRepository.getMovies(PAGE, LANGUAGE)
+        val getMoviesFlow = moviesRepository.getMovies(LANGUAGE)
 
         getMoviesFlow.collect {
             coVerify(exactly = 1) { moviesService.getPopularMovies(PAGE, LANGUAGE) }

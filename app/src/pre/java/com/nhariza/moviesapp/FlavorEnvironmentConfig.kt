@@ -1,4 +1,4 @@
-package com.nhariza.marvelapp
+package com.nhariza.moviesapp
 
 class FlavorEnvironmentConfig : EnvironmentConfig() {
     override val baseUrl: String = "https://api.themoviedb.org/"
