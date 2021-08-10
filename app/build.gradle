@@ -1,0 +1,118 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+}
+
+android {
+    compileSdk 30
+
+    defaultConfig {
+        applicationId "com.nhariza.moviesapp"
+        minSdk 21
+        targetSdk 30
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    sourceSets {
+        androidTest {
+            java.srcDirs += ['src/testBuilders/java']
+        }
+        test {
+            java.srcDirs += ['src/testBuilders/java']
+        }
+    }
+
+    buildTypes {
+        debug {
+            applicationIdSuffix '.debug'
+            versionNameSuffix '-DEBUG'
+            testCoverageEnabled true
+        }
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    buildFeatures {
+        viewBinding true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    flavorDimensions("flavorDimen")
+    productFlavors {
+        create("ins") {
+            applicationIdSuffix = ".ins"
+        }
+        create("pre") {
+            applicationIdSuffix = ".pre"
+        }
+        create("pro") {}
+    }
+
+    testOptions {
+        animationsDisabled = true
+    }
+}
+
+dependencies {
+
+    implementation Kotlin.stdlib
+
+    implementation AndroidX.coreKtx
+    implementation AndroidX.appcompat
+    implementation AndroidX.material
+    implementation AndroidX.constraintlayout
+
+    implementation Glide.core
+    annotationProcessor Glide.compiler
+
+    implementation Navigation.fragment
+    implementation Navigation.ui
+
+    implementation Lifecycle.viewmodel
+
+    implementation Retrofit.core
+    implementation Retrofit.gson
+    implementation Retrofit.interceptor
+
+    implementation Koin.core
+
+    testImplementation TestLibs.arch_core
+    testImplementation TestLibs.coroutines
+    testImplementation TestLibs.mockk
+    testImplementation TestLibs.turbine
+
+    androidTestImplementation TestLibs.truth
+    androidTestImplementation TestLibs.espresso_core
+    androidTestImplementation TestLibs.espresso_intents
+    androidTestImplementation TestLibs.mockk_android
+    androidTestImplementation TestLibs.koin
+    androidTestImplementation TestLibs.navigation
+    androidTestImplementation TestLibs.mockWebServer
+
+    androidTestImplementation(TestLibs.barista) {
+        exclude group: 'org.jetbrains.kotlin'
+    }
+
+    debugImplementation TestLibs.fragment
+
+}
+
+configurations.all {
+    resolutionStrategy {
+        force 'androidx.test:monitor:1.4.0'
+    }
+}
