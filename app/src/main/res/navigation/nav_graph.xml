@@ -8,6 +8,7 @@
     <fragment
         android:id="@+id/moviesFragment"
         android:name="com.nhariza.moviesapp.view.movies.MoviesFragment"
+        android:label="@string/app_name"
         tools:layout="@layout/movies_fragment">
 
     </fragment>
