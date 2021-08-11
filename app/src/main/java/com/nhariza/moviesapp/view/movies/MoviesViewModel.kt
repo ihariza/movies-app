@@ -11,24 +11,33 @@ class MoviesViewModel(
     private val moviesRepository: MoviesRepository
 ) : BaseViewModel() {
 
+    companion object {
+        private const val PAGE_THRESHOLD = 20
+    }
+
+    private var viewThreshold = 15
+
     val moviesState: StateFlow<MoviesState>
         get() = _moviesState
     private val _moviesState = MutableStateFlow<MoviesState>(MoviesState.Loading)
 
 
-    fun getMovies(language: String) {
+    fun getMovies() {
         doInBackground {
-            moviesRepository.getMovies(language)
+            moviesRepository.getMovies()
                 .catch {
                     _moviesState.value = MoviesState.Error(it)
                 }
                 .collect {
-                    if (it.isNotEmpty()) {
-                        _moviesState.value = MoviesState.Success(it)
-                    } else {
-                        _moviesState.value = MoviesState.Empty
-                    }
+                    _moviesState.value = MoviesState.Success(it)
                 }
+        }
+    }
+
+    fun checkRequireNewPage(lastVisible: Int) {
+        if (lastVisible >= viewThreshold) {
+            viewThreshold += PAGE_THRESHOLD
+            getMovies()
         }
     }
 }

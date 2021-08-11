@@ -5,6 +5,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.nhariza.moviesapp.R
 import com.nhariza.moviesapp.databinding.MoviesFragmentBinding
 import com.nhariza.moviesapp.repository.model.Movie
@@ -29,7 +30,7 @@ class MoviesFragment : BaseFragment<MoviesFragmentBinding, MoviesViewModel>() {
     override fun initView() {
         setupNavigation()
         setupRecyclerView()
-        viewModel.getMovies("es-ES")
+        viewModel.getMovies()
     }
 
     override fun bindViewActions() {
@@ -39,7 +40,6 @@ class MoviesFragment : BaseFragment<MoviesFragmentBinding, MoviesViewModel>() {
                     is MoviesState.Success -> showMovies(it.movies)
                     is MoviesState.Error -> showError()
                     MoviesState.Loading -> showLoadingScreen()
-                    MoviesState.Empty -> showEmptyScreen()
                 }
             }
         }
@@ -61,10 +61,16 @@ class MoviesFragment : BaseFragment<MoviesFragmentBinding, MoviesViewModel>() {
         val layoutManager = LinearLayoutManager(context)
         binding.recyclerview.layoutManager = layoutManager
         binding.recyclerview.adapter = adapter
+
+        binding.recyclerview.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                viewModel.checkRequireNewPage(layoutManager.findLastVisibleItemPosition())
+            }
+        })
     }
 
     private fun showMovies(movies: List<Movie>) {
-        adapter.submitList(movies)
+        adapter.submitList(adapter.currentList.toList() + movies.toList())
     }
 
     private fun showError() {
@@ -73,9 +79,5 @@ class MoviesFragment : BaseFragment<MoviesFragmentBinding, MoviesViewModel>() {
 
     private fun showLoadingScreen() {
         //TODO implement show loading
-    }
-
-    private fun showEmptyScreen() {
-        //TODO implement show empty
     }
 }

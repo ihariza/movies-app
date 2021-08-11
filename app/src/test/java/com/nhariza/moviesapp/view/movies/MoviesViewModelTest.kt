@@ -21,10 +21,6 @@ import kotlin.time.ExperimentalTime
 @ExperimentalCoroutinesApi
 class MoviesViewModelTest : BaseViewModelTest() {
 
-    companion object {
-        private const val LANGUAGE = "en-EN"
-    }
-
     @RelaxedMockK
     lateinit var moviesRepository: MoviesRepository
 
@@ -40,11 +36,11 @@ class MoviesViewModelTest : BaseViewModelTest() {
         val moviesFlow = MoviesListFlowBuilder().withMoviesListDto(moviesDto).build()
 
         coEvery {
-            moviesRepository.getMovies(LANGUAGE)
+            moviesRepository.getMovies()
         } returns moviesFlow
 
         moviesViewModel.moviesState.test {
-            moviesViewModel.getMovies(LANGUAGE)
+            moviesViewModel.getMovies()
             assertEquals(MoviesState.Loading, expectItem())
             assertEquals(MoviesState.Success(moviesDto.toModel()), expectItem())
             cancelAndConsumeRemainingEvents()
@@ -56,11 +52,11 @@ class MoviesViewModelTest : BaseViewModelTest() {
         val moviesFlow = MoviesListFlowBuilder().withMoviesListDto(listOf()).build()
 
         coEvery {
-            moviesRepository.getMovies(LANGUAGE)
+            moviesRepository.getMovies()
         } returns moviesFlow
 
         moviesViewModel.moviesState.test {
-            moviesViewModel.getMovies(LANGUAGE)
+            moviesViewModel.getMovies()
             assertEquals(MoviesState.Loading, expectItem())
             assertEquals(MoviesState.Empty, expectItem())
             cancelAndConsumeRemainingEvents()
@@ -71,13 +67,13 @@ class MoviesViewModelTest : BaseViewModelTest() {
     fun `getMovies exception should change MoviesState to Error`() = runBlocking {
         val exception = UnknownHostException()
         coEvery {
-            moviesRepository.getMovies(LANGUAGE)
+            moviesRepository.getMovies()
         } returns ExceptionFlowBuilder<List<Movie>>()
             .withException(exception)
             .build()
 
         moviesViewModel.moviesState.test {
-            moviesViewModel.getMovies(LANGUAGE)
+            moviesViewModel.getMovies()
             assertEquals(MoviesState.Loading, expectItem())
             assertEquals(MoviesState.Error(exception), expectItem())
             cancelAndConsumeRemainingEvents()

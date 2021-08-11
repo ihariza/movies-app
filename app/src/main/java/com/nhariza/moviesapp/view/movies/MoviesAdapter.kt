@@ -36,7 +36,7 @@ class MoviesAdapter internal constructor(
     }
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
-        val movie = getItem(position)
+        val movie = currentList[position]
         holder.bind(movie)
     }
 }

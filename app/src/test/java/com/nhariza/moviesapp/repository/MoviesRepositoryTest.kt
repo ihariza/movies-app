@@ -18,13 +18,14 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
+import java.util.*
 
 @ExperimentalCoroutinesApi
 class MoviesRepositoryTest {
 
     companion object {
         private const val PAGE = 1
-        private const val LANGUAGE = "en-EN"
+        private val LANGUAGE = Locale.getDefault().toLanguageTag()
     }
 
     @RelaxedMockK
@@ -73,7 +74,7 @@ class MoviesRepositoryTest {
                 moviesService.getPopularMovies(PAGE, LANGUAGE)
             } returns responseDtoBuilder.build()
 
-            val getMoviesFlow = moviesRepository.getMovies(LANGUAGE)
+            val getMoviesFlow = moviesRepository.getMovies()
 
             getMoviesFlow
                 .catch {
@@ -90,7 +91,7 @@ class MoviesRepositoryTest {
                 moviesService.getPopularMovies(PAGE, LANGUAGE)
             } throws ClassCastException()
 
-            val getMoviesFlow = moviesRepository.getMovies(LANGUAGE)
+            val getMoviesFlow = moviesRepository.getMovies()
 
             getMoviesFlow
                 .catch { assertTrue(it is ClassCastException) }
@@ -105,7 +106,7 @@ class MoviesRepositoryTest {
             moviesService.getPopularMovies(PAGE, LANGUAGE)
         } returns responseDtoBuilder.build()
 
-        val getMoviesFlow = moviesRepository.getMovies(LANGUAGE)
+        val getMoviesFlow = moviesRepository.getMovies()
 
         getMoviesFlow.collect {
             coVerify(exactly = 1) { moviesService.getPopularMovies(PAGE, LANGUAGE) }

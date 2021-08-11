@@ -5,6 +5,7 @@ import com.nhariza.moviesapp.repository.exception.MoviesException
 import com.nhariza.moviesapp.repository.model.Movie
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import java.util.*
 
 
 class MoviesRepositoryImp(
@@ -13,8 +14,8 @@ class MoviesRepositoryImp(
 
     private var page = 1
 
-    override fun getMovies(language: String): Flow<List<Movie>> = flow {
-        val response = moviesService.getPopularMovies(page, language)
+    override fun getMovies(): Flow<List<Movie>> = flow {
+        val response = moviesService.getPopularMovies(page, Locale.getDefault().toLanguageTag())
 
         when (response.statusCode) {
             null -> {
