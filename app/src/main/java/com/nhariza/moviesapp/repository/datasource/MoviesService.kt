@@ -1,7 +1,7 @@
 package com.nhariza.moviesapp.repository.datasource
 
-import com.nhariza.moviesapp.repository.datasource.model.ResponseDto
 import com.nhariza.moviesapp.repository.datasource.model.MovieDto
+import com.nhariza.moviesapp.repository.datasource.model.ResponseDto
 import retrofit2.http.GET
 import retrofit2.http.Query
 

@@ -11,7 +11,7 @@ class AuthorizationInterceptor(
     override fun intercept(chain: Interceptor.Chain): Response {
         var original = chain.request()
         val url = original.url.newBuilder()
-            .addQueryParameter("apikey", flavorEnvironmentConfig.apikey)
+            .addQueryParameter("api_key", flavorEnvironmentConfig.apikey)
             .build()
         original = original.newBuilder().url(url).build()
         return chain.proceed(original)

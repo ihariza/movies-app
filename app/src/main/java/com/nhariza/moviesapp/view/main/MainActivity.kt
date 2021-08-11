@@ -1,12 +1,10 @@
 package com.nhariza.moviesapp.view.main
 
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import com.nhariza.moviesapp.R
+import com.nhariza.moviesapp.databinding.ActivityMainBinding
+import com.nhariza.moviesapp.view.base.BaseActivity
 
-class MainActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-    }
+class MainActivity : BaseActivity<ActivityMainBinding>() {
+
+    override fun getViewBinding(): ActivityMainBinding = ActivityMainBinding.inflate(layoutInflater)
+
 }
