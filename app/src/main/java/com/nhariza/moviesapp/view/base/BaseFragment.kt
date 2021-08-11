@@ -9,6 +9,8 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.nhariza.moviesapp.R
 
 abstract class BaseFragment<Binding : ViewBinding, ViewModel : BaseViewModel> : Fragment() {
 
@@ -51,6 +53,27 @@ abstract class BaseFragment<Binding : ViewBinding, ViewModel : BaseViewModel> : 
     protected open fun onBackPressed() {
         if (!findNavController().navigateUp()) {
             activity?.finish()
+        }
+    }
+
+    protected fun showAlertDialog(
+        title: String,
+        message: String? = null,
+        actionName: String,
+        action: () -> Unit
+    ) {
+        with(context?.let { MaterialAlertDialogBuilder(it, R.style.AlertDialogTheme) }) {
+            this?.setTitle(title)
+            this?.setMessage(message)
+            this?.setPositiveButton(actionName) { dialog, _ ->
+                dialog.dismiss()
+                action.invoke()
+            }
+            this?.setNegativeButton(getString(R.string.common_cancel)) { dialog, _ ->
+                dialog.dismiss()
+            }
+            this?.create()
+            this?.show()
         }
     }
 }

@@ -11,8 +11,8 @@ import com.nhariza.moviesapp.repository.datasource.model.MovieDto
 import com.nhariza.moviesapp.view.base.BaseAndroidTest
 import com.nhariza.moviesapp.view.base.MockServerDispatcher
 import com.nhariza.moviesapp.view.main.MainActivity
-import com.schibsted.spain.barista.assertion.BaristaRecyclerViewAssertions
-import com.schibsted.spain.barista.assertion.BaristaVisibilityAssertions
+import com.schibsted.spain.barista.assertion.BaristaRecyclerViewAssertions.assertRecyclerViewItemCount
+import com.schibsted.spain.barista.assertion.BaristaVisibilityAssertions.assertDisplayed
 import org.junit.Test
 
 class MoviesFragmentTest : BaseAndroidTest() {
@@ -35,8 +35,15 @@ class MoviesFragmentTest : BaseAndroidTest() {
         Espresso.onView(withId(R.id.recyclerview)).perform(
             RecyclerViewActions.scrollToPosition<MovieViewHolder>(19)
         )
-        BaristaVisibilityAssertions.assertDisplayed("Title 14")
-        BaristaRecyclerViewAssertions.assertRecyclerViewItemCount(R.id.recyclerview, 20)
+        assertDisplayed("Title 14")
+        assertRecyclerViewItemCount(R.id.recyclerview, 20)
+    }
+
+    @Test
+    fun showErrorDialog() {
+        mockServer.dispatcher = MockServerDispatcher.ErrorDispatcher(401)
+        assertDisplayed(R.string.common_error_title)
+        assertDisplayed(R.string.common_error_subtitle)
     }
 
     private fun mockMoviesData(moviesListDto: List<MovieDto> = listOf(MovieDtoBuilder().build())) {

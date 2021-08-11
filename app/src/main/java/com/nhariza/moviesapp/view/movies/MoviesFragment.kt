@@ -74,7 +74,13 @@ class MoviesFragment : BaseFragment<MoviesFragmentBinding, MoviesViewModel>() {
     }
 
     private fun showError() {
-        //TODO implement show error
+        showAlertDialog(
+            title = getString(R.string.common_error_title),
+            message = getString(R.string.common_error_subtitle),
+            actionName = getString(R.string.common_retry)
+        ) {
+            viewModel.getMovies()
+        }
     }
 
     private fun showLoadingScreen() {

@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">MovieApp</string>
 
-    <string name="movies_search">Buscar película…</string>
+    <string name="common_cancel">Cancelar</string>
+    <string name="common_retry">Reintentar</string>
+    <string name="common_error_title">¡Ups!</string>
+    <string name="common_error_subtitle">Seguramente sea cosa nuestra, pero por si acaso revisa tu conexión. ¡Gracias!</string>
+
 </resources>
