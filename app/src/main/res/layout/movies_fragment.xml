@@ -34,4 +34,12 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:listitem="@layout/movie_item" />
 
+    <com.nhariza.moviesapp.view.common.RotationImageView
+        android:id="@+id/rivLoading"
+        android:layout_width="@dimen/size_30"
+        android:layout_height="@dimen/size_30"
+        android:layout_gravity="center"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.CircleImageView"
+        app:srcCompat="@drawable/ic_loading" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

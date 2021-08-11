@@ -10,6 +10,8 @@ import com.nhariza.moviesapp.R
 import com.nhariza.moviesapp.databinding.MoviesFragmentBinding
 import com.nhariza.moviesapp.repository.model.Movie
 import com.nhariza.moviesapp.view.base.BaseFragment
+import com.nhariza.moviesapp.view.common.gone
+import com.nhariza.moviesapp.view.common.visible
 import kotlinx.coroutines.flow.collect
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -70,6 +72,7 @@ class MoviesFragment : BaseFragment<MoviesFragmentBinding, MoviesViewModel>() {
     }
 
     private fun showMovies(movies: List<Movie>) {
+        binding.rivLoading.stopAnimation()
         adapter.submitList(adapter.currentList.toList() + movies.toList())
     }
 
@@ -84,6 +87,6 @@ class MoviesFragment : BaseFragment<MoviesFragmentBinding, MoviesViewModel>() {
     }
 
     private fun showLoadingScreen() {
-        //TODO implement show loading
+        binding.rivLoading.startAnimation()
     }
 }

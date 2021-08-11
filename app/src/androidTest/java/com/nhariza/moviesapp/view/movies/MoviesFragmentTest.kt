@@ -11,8 +11,11 @@ import com.nhariza.moviesapp.repository.datasource.model.MovieDto
 import com.nhariza.moviesapp.view.base.BaseAndroidTest
 import com.nhariza.moviesapp.view.base.MockServerDispatcher
 import com.nhariza.moviesapp.view.main.MainActivity
+import com.nhariza.moviesapp.view.util.SLEEP
+import com.nhariza.moviesapp.view.util.ViewUtils.Companion.waitForIdle
 import com.schibsted.spain.barista.assertion.BaristaRecyclerViewAssertions.assertRecyclerViewItemCount
 import com.schibsted.spain.barista.assertion.BaristaVisibilityAssertions.assertDisplayed
+import com.schibsted.spain.barista.assertion.BaristaVisibilityAssertions.assertNotDisplayed
 import org.junit.Test
 
 class MoviesFragmentTest : BaseAndroidTest() {
@@ -37,11 +40,13 @@ class MoviesFragmentTest : BaseAndroidTest() {
         )
         assertDisplayed("Title 14")
         assertRecyclerViewItemCount(R.id.recyclerview, 20)
+        assertNotDisplayed(R.id.rivLoading)
     }
 
     @Test
     fun showErrorDialog() {
         mockServer.dispatcher = MockServerDispatcher.ErrorDispatcher(401)
+        waitForIdle(SLEEP.MEDIUM)
         assertDisplayed(R.string.common_error_title)
         assertDisplayed(R.string.common_error_subtitle)
     }
