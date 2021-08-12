@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.transition.TransitionInflater
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.nhariza.moviesapp.R
@@ -26,6 +27,8 @@ abstract class BaseFragment<Binding : ViewBinding, ViewModel : BaseViewModel> : 
         savedInstanceState: Bundle?
     ): View? {
         binding = getViewBinding()
+        sharedElementEnterTransition = TransitionInflater
+            .from(context).inflateTransition(android.R.transition.move)
         return binding.root
     }
 
@@ -60,7 +63,8 @@ abstract class BaseFragment<Binding : ViewBinding, ViewModel : BaseViewModel> : 
         title: String,
         message: String? = null,
         actionName: String,
-        action: () -> Unit
+        action: () -> Unit,
+        actionCancel: (() -> Unit)? = null
     ) {
         with(context?.let { MaterialAlertDialogBuilder(it, R.style.AlertDialogTheme) }) {
             this?.setTitle(title)
@@ -71,8 +75,10 @@ abstract class BaseFragment<Binding : ViewBinding, ViewModel : BaseViewModel> : 
             }
             this?.setNegativeButton(getString(R.string.common_cancel)) { dialog, _ ->
                 dialog.dismiss()
+                actionCancel?.invoke()
             }
             this?.create()
+            this?.setOnCancelListener { actionCancel?.invoke() }
             this?.show()
         }
     }

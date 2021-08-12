@@ -22,8 +22,8 @@ class MoviesApplication : Application() {
                 listOf(
                     networkModule,
                     repositoryModule,
-                    managerModule,
-                    moviesModule
+                    moviesModule,
+                    movieDetailModule
                 )
             )
         }

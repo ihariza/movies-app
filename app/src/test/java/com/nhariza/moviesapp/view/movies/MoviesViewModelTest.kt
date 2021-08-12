@@ -10,6 +10,7 @@ import com.nhariza.moviesapp.repository.model.Movie
 import com.nhariza.moviesapp.repository.toModel
 import io.mockk.coEvery
 import io.mockk.impl.annotations.RelaxedMockK
+import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
@@ -31,6 +32,53 @@ class MoviesViewModelTest : BaseViewModelTest() {
     }
 
     @Test
+    fun `initMovies should change MoviesState to Success and return a movies list`() = runBlocking {
+        val moviesDto = listOf(MovieDtoBuilder().build())
+        val moviesFlow = MoviesListFlowBuilder().withMoviesListDto(moviesDto).build()
+
+        coEvery {
+            moviesRepository.getMovies()
+        } returns moviesFlow
+
+        moviesViewModel.moviesState.test {
+            moviesViewModel.initMovies()
+            assertEquals(MoviesState.Loading, expectItem())
+            assertEquals(MoviesState.Success(moviesDto.toModel()), expectItem())
+            cancelAndConsumeRemainingEvents()
+        }
+    }
+
+    @Test
+    fun `initMovies called with movies loaded should do nothing`() = runBlocking {
+        val moviesDto = listOf(MovieDtoBuilder().build())
+        val moviesFlow = MoviesListFlowBuilder().withMoviesListDto(moviesDto).build()
+
+        coEvery {
+            moviesRepository.getMovies()
+        } returns moviesFlow
+
+        moviesViewModel.moviesState.test {
+            moviesViewModel.getMovies()
+            cancelAndConsumeRemainingEvents()
+            moviesViewModel.initMovies()
+            verify(exactly = 1) {
+                moviesRepository.getMovies()
+            }
+        }
+    }
+
+    @Test
+    fun `initMovies without movies loaded should change MoviesState to Success`() = runBlocking {
+        moviesViewModel.moviesState.test {
+            moviesViewModel.initMovies()
+            cancelAndConsumeRemainingEvents()
+            verify(exactly = 1) {
+                moviesRepository.getMovies()
+            }
+        }
+    }
+
+    @Test
     fun `getMovies should change MoviesState to Success and return a movies list`() = runBlocking {
         val moviesDto = listOf(MovieDtoBuilder().build())
         val moviesFlow = MoviesListFlowBuilder().withMoviesListDto(moviesDto).build()
@@ -48,22 +96,6 @@ class MoviesViewModelTest : BaseViewModelTest() {
     }
 
     @Test
-    fun `getMovies empty list should change MoviesState to Empty`() = runBlocking {
-        val moviesFlow = MoviesListFlowBuilder().withMoviesListDto(listOf()).build()
-
-        coEvery {
-            moviesRepository.getMovies()
-        } returns moviesFlow
-
-        moviesViewModel.moviesState.test {
-            moviesViewModel.getMovies()
-            assertEquals(MoviesState.Loading, expectItem())
-            assertEquals(MoviesState.Empty, expectItem())
-            cancelAndConsumeRemainingEvents()
-        }
-    }
-
-    @Test
     fun `getMovies exception should change MoviesState to Error`() = runBlocking {
         val exception = UnknownHostException()
         coEvery {
@@ -75,7 +107,7 @@ class MoviesViewModelTest : BaseViewModelTest() {
         moviesViewModel.moviesState.test {
             moviesViewModel.getMovies()
             assertEquals(MoviesState.Loading, expectItem())
-            assertEquals(MoviesState.Error(exception), expectItem())
+            assert(expectItem() is MoviesState.Error)
             cancelAndConsumeRemainingEvents()
         }
     }

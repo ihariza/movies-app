@@ -1,6 +1,7 @@
 package com.nhariza.moviesapp.view.movies
 
 import com.nhariza.moviesapp.repository.MoviesRepository
+import com.nhariza.moviesapp.repository.model.Movie
 import com.nhariza.moviesapp.view.base.BaseViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -12,31 +13,45 @@ class MoviesViewModel(
 ) : BaseViewModel() {
 
     companion object {
-        private const val PAGE_THRESHOLD = 20
+        private const val PAGE_LIMIT = 20
+        private const val PAGE_THRESHOLD = 5
     }
 
-    private var viewThreshold = 15
+    private var viewThreshold = PAGE_LIMIT - PAGE_THRESHOLD
+    private val movies = mutableListOf<Movie>()
+
 
     val moviesState: StateFlow<MoviesState>
         get() = _moviesState
     private val _moviesState = MutableStateFlow<MoviesState>(MoviesState.Loading)
 
 
+    fun initMovies() {
+        if (movies.size == 0) {
+            getMovies()
+        }
+    }
+
     fun getMovies() {
         doInBackground {
             moviesRepository.getMovies()
                 .catch {
-                    _moviesState.value = MoviesState.Error(it)
+                    _moviesState.value = MoviesState.Error {
+                        viewThreshold = movies.size - PAGE_THRESHOLD
+                        _moviesState.value = MoviesState.Success(movies.toList())
+                        initMovies()
+                    }
                 }
                 .collect {
-                    _moviesState.value = MoviesState.Success(it)
+                    movies.addAll(it)
+                    _moviesState.value = MoviesState.Success(movies.toList())
                 }
         }
     }
 
     fun checkRequireNewPage(lastVisible: Int) {
         if (lastVisible >= viewThreshold) {
-            viewThreshold += PAGE_THRESHOLD
+            viewThreshold = movies.size + PAGE_LIMIT - PAGE_THRESHOLD
             getMovies()
         }
     }

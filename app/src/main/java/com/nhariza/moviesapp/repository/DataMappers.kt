@@ -8,6 +8,7 @@ fun MovieDto.toModel(): Movie = Movie(
     id,
     title,
     posterPath,
+    backdropPath,
     overview,
     releaseDate,
     voteAverage
