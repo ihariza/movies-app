@@ -12,6 +12,7 @@ import com.nhariza.moviesapp.repository.model.Review
 import com.nhariza.moviesapp.view.base.BaseFragment
 import com.nhariza.moviesapp.view.common.gone
 import com.nhariza.moviesapp.view.common.load
+import com.nhariza.moviesapp.view.common.visible
 import com.nhariza.moviesapp.view.moviedetail.adapter.ReviewsAdapter
 import kotlinx.coroutines.flow.collect
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -81,6 +82,7 @@ class MovieDetailFragment : BaseFragment<MovieDetailFragmentBinding, MovieDetail
     }
 
     private fun showReviews(reviews: List<Review>) {
+        binding.review.visible()
         reviewsAdapter.submitList(reviews)
     }
 
