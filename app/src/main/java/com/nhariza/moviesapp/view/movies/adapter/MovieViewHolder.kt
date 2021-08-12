@@ -1,4 +1,4 @@
-package com.nhariza.moviesapp.view.movies
+package com.nhariza.moviesapp.view.movies.adapter
 
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.FragmentNavigatorExtras
@@ -7,6 +7,7 @@ import com.bumptech.glide.Glide
 import com.nhariza.moviesapp.R
 import com.nhariza.moviesapp.databinding.MovieItemBinding
 import com.nhariza.moviesapp.repository.model.Movie
+import com.nhariza.moviesapp.view.movies.MoviesFragmentDirections
 
 class MovieViewHolder(
     private val binding: MovieItemBinding,

@@ -1,7 +1,7 @@
 package com.nhariza.moviesapp.repository
 
 import com.nhariza.moviesapp.builder.dto.MovieDtoBuilder
-import com.nhariza.moviesapp.builder.dto.ResponseDtoBuilder
+import com.nhariza.moviesapp.builder.dto.MoviesResponseDtoBuilder
 import com.nhariza.moviesapp.repository.datasource.MoviesService
 import com.nhariza.moviesapp.repository.datasource.model.MovieDto
 import com.nhariza.moviesapp.repository.exception.MoviesException
@@ -42,14 +42,14 @@ class MoviesRepositoryTest {
     @Test
     fun `getMovies should return a list of movies`() = runBlockingTest {
         val responseDtoBuilder =
-            ResponseDtoBuilder<List<MovieDto>>().withResults(listOf(MovieDtoBuilder().build()))
+            MoviesResponseDtoBuilder<List<MovieDto>>().withResults(listOf(MovieDtoBuilder().build()))
 
         verifyGetMoviesWith(responseDtoBuilder, responseDtoBuilder.build().results?.toModel())
     }
 
     @Test
     fun `given an empty list, getMovies should return an empty list`() = runBlockingTest {
-        val responseDtoBuilder = ResponseDtoBuilder<List<MovieDto>>()
+        val responseDtoBuilder = MoviesResponseDtoBuilder<List<MovieDto>>()
             .withResults(listOf())
 
         verifyGetMoviesWith(responseDtoBuilder, responseDtoBuilder.build().results?.toModel())
@@ -57,7 +57,7 @@ class MoviesRepositoryTest {
 
     @Test
     fun `given a null list, getMovies should return a empty list`() = runBlockingTest {
-        val responseDtoBuilder = ResponseDtoBuilder<List<MovieDto>>()
+        val responseDtoBuilder = MoviesResponseDtoBuilder<List<MovieDto>>()
             .withResults(null)
 
         verifyGetMoviesWith(responseDtoBuilder, listOf())
@@ -67,7 +67,7 @@ class MoviesRepositoryTest {
     fun `given response failure, getMovies should return a MoviesException with a message`() =
         runBlockingTest {
             val messageError = "Movies message error"
-            val responseDtoBuilder = ResponseDtoBuilder<List<MovieDto>>()
+            val responseDtoBuilder = MoviesResponseDtoBuilder<List<MovieDto>>()
                 .statusMessage(messageError).withStatusCode(401)
 
             coEvery {
@@ -99,12 +99,12 @@ class MoviesRepositoryTest {
         }
 
     private suspend fun verifyGetMoviesWith(
-        responseDtoBuilder: ResponseDtoBuilder<List<MovieDto>>,
+        moviesResponseDtoBuilder: MoviesResponseDtoBuilder<List<MovieDto>>,
         expected: List<Movie>?
     ) {
         coEvery {
             moviesService.getPopularMovies(PAGE, LANGUAGE)
-        } returns responseDtoBuilder.build()
+        } returns moviesResponseDtoBuilder.build()
 
         val getMoviesFlow = moviesRepository.getMovies()
 

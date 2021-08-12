@@ -1,9 +1,9 @@
 package com.nhariza.moviesapp.builder.dto
 
-import com.nhariza.moviesapp.repository.datasource.model.ResponseDto
+import com.nhariza.moviesapp.repository.datasource.model.MoviesResponseDto
 
 
-class ResponseDtoBuilder<T> {
+class MoviesResponseDtoBuilder<T> {
 
     private var page: Int = 200
     private var results: T? = null
@@ -12,22 +12,22 @@ class ResponseDtoBuilder<T> {
     private var statusMessage: String? = null
     private var statusCode: Int? = null
 
-    fun withStatusCode(statusCode: Int?): ResponseDtoBuilder<T> {
+    fun withStatusCode(statusCode: Int?): MoviesResponseDtoBuilder<T> {
         this.statusCode = statusCode
         return this
     }
 
-    fun statusMessage(statusMessage: String?): ResponseDtoBuilder<T> {
+    fun statusMessage(statusMessage: String?): MoviesResponseDtoBuilder<T> {
         this.statusMessage = statusMessage
         return this
     }
 
-    fun withResults(results: T?): ResponseDtoBuilder<T> {
+    fun withResults(results: T?): MoviesResponseDtoBuilder<T> {
         this.results = results
         return this
     }
 
-    fun build(): ResponseDto<T> = ResponseDto(
+    fun build(): MoviesResponseDto<T> = MoviesResponseDto(
         page,
         results,
         totalPages,

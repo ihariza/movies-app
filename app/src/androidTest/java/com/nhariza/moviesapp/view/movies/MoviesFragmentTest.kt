@@ -6,11 +6,12 @@ import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import com.nhariza.moviesapp.R
 import com.nhariza.moviesapp.builder.dto.MovieDtoBuilder
-import com.nhariza.moviesapp.builder.dto.ResponseDtoBuilder
+import com.nhariza.moviesapp.builder.dto.MoviesResponseDtoBuilder
 import com.nhariza.moviesapp.repository.datasource.model.MovieDto
 import com.nhariza.moviesapp.view.base.BaseAndroidTest
 import com.nhariza.moviesapp.view.base.MockServerDispatcher
 import com.nhariza.moviesapp.view.main.MainActivity
+import com.nhariza.moviesapp.view.movies.adapter.MovieViewHolder
 import com.nhariza.moviesapp.view.util.SLEEP
 import com.nhariza.moviesapp.view.util.ViewUtils.Companion.waitForIdle
 import com.schibsted.spain.barista.assertion.BaristaRecyclerViewAssertions.assertRecyclerViewItemCount
@@ -52,7 +53,7 @@ class MoviesFragmentTest : BaseAndroidTest() {
     }
 
     private fun mockMoviesData(moviesListDto: List<MovieDto> = listOf(MovieDtoBuilder().build())) {
-        val responseDto = ResponseDtoBuilder<List<MovieDto>>()
+        val responseDto = MoviesResponseDtoBuilder<List<MovieDto>>()
             .withResults(moviesListDto)
         mockServer.dispatcher = MockServerDispatcher.RequestDispatcher(responseDto)
     }

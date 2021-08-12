@@ -8,6 +8,7 @@
 
     <string name="movies_no_overview">Sin descripción</string>
 
-    <string name="movie_detail_vote_verage">Valoración: %1$s</string>
+    <string name="movie_detail_vote_average">Valoración: %1$s</string>
+    <string name="movie_detail_review_title">Valoraciones</string>
 
 </resources>

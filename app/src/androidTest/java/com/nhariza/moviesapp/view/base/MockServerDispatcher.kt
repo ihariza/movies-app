@@ -2,7 +2,7 @@ package com.nhariza.moviesapp.view.base
 
 import com.google.gson.Gson
 import com.nhariza.moviesapp.builder.dto.MovieDtoBuilder
-import com.nhariza.moviesapp.builder.dto.ResponseDtoBuilder
+import com.nhariza.moviesapp.builder.dto.MoviesResponseDtoBuilder
 import com.nhariza.moviesapp.repository.datasource.PathService
 import com.nhariza.moviesapp.repository.datasource.model.MovieDto
 import okhttp3.mockwebserver.Dispatcher
@@ -16,7 +16,7 @@ sealed class MockServerDispatcher {
      */
     class RequestDispatcher(
         private val moviesListDto: Any? =
-            ResponseDtoBuilder<List<MovieDto>>().withResults(listOf(MovieDtoBuilder().build()))
+            MoviesResponseDtoBuilder<List<MovieDto>>().withResults(listOf(MovieDtoBuilder().build()))
     ) : Dispatcher() {
 
         override fun dispatch(request: RecordedRequest): MockResponse {

@@ -1,4 +1,4 @@
-package com.nhariza.moviesapp.view.movies
+package com.nhariza.moviesapp.view.movies.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

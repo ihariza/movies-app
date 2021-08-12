@@ -7,6 +7,7 @@ import com.nhariza.moviesapp.R
 import com.nhariza.moviesapp.databinding.MoviesFragmentBinding
 import com.nhariza.moviesapp.repository.model.Movie
 import com.nhariza.moviesapp.view.base.BaseFragment
+import com.nhariza.moviesapp.view.movies.adapter.MoviesAdapter
 import kotlinx.coroutines.flow.collect
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

@@ -4,4 +4,5 @@ object PathService {
 
     // Movies service
     const val GET_POPULAR_MOVIES = "3/movie/popular"
+    const val GET_MOVIE_REVIEW = "3/movie/{movie_id}/reviews"
 }
