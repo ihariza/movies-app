@@ -42,7 +42,10 @@ class MovieViewHolder(
             val extras = FragmentNavigatorExtras(
                 binding.image to "image_${movie.id}"
             )
-            it.findNavController().navigate(directions, extras)
+            val controller = it.findNavController()
+            if (controller.currentDestination?.id == R.id.moviesFragment) {
+                controller.navigate(directions, extras)
+            }
         }
     }
 }
