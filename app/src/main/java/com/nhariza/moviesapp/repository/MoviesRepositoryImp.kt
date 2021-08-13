@@ -34,10 +34,16 @@ class MoviesRepositoryImp(
 
     override fun getReviews(movieId: Int): Flow<List<Review>> = flow {
         val response = moviesService.getMovieReview(movieId)
-        if (response.reviews.isNullOrEmpty()) {
-            throw ReviewsException()
-        } else {
-            emit(response.reviews.toModel())
+
+        when (response.statusCode) {
+            null -> {
+                if (response.results.isNullOrEmpty()) {
+                    throw ReviewsException()
+                } else {
+                    emit(response.results.toModel())
+                }
+            }
+            else -> throw ReviewsException()
         }
     }
 

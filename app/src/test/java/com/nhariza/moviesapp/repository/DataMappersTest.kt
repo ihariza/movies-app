@@ -1,6 +1,7 @@
 package com.nhariza.moviesapp.repository
 
 import com.nhariza.moviesapp.builder.dto.MovieDtoBuilder
+import com.nhariza.moviesapp.builder.dto.ReviewDtoBuilder
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -46,5 +47,38 @@ class DataMappersTest {
         assert(movies[0].voteAverage == moviesDto[0].voteAverage)
         assert(movies[1].voteAverage == moviesDto[1].voteAverage)
         assertEquals(movies.size, moviesDto.size)
+    }
+
+    @Test
+    fun `verify review dto to review model`() {
+        val reviewDto = ReviewDtoBuilder().build()
+
+        val review = reviewDto.toModel()
+
+        assertEquals(review.avatarPath, reviewDto.authorDetailsDto?.avatarPath)
+        assertEquals(review.username, reviewDto.authorDetailsDto?.username)
+        assertEquals(review.content, reviewDto.content)
+        assertEquals(review.id, reviewDto.id)
+    }
+
+    @Test
+    fun `verify reviews list dto to reviews list model`() {
+        val reviewsDto =
+            listOf(
+                ReviewDtoBuilder().withId("1").withContent("Content 1").build(),
+                ReviewDtoBuilder().withId("2").withContent("Content 2").build()
+            )
+
+        val reviews = reviewsDto.toModel()
+
+        assertEquals(reviews[0].id, reviewsDto[0].id)
+        assertEquals(reviews[1].id, reviewsDto[1].id)
+        assertEquals(reviews[0].content, reviewsDto[0].content)
+        assertEquals(reviews[1].content, reviewsDto[1].content)
+        assertEquals(reviews[0].avatarPath, reviewsDto[0].authorDetailsDto?.avatarPath)
+        assertEquals(reviews[1].avatarPath, reviewsDto[1].authorDetailsDto?.avatarPath)
+        assertEquals(reviews[1].username, reviewsDto[1].authorDetailsDto?.username)
+        assertEquals(reviews[1].username, reviewsDto[1].authorDetailsDto?.username)
+        assertEquals(reviews.size, reviewsDto.size)
     }
 }

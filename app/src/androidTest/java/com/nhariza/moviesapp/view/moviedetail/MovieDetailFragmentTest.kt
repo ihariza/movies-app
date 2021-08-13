@@ -8,7 +8,10 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import com.nhariza.moviesapp.R
 import com.nhariza.moviesapp.builder.dto.MovieDtoBuilder
 import com.nhariza.moviesapp.builder.dto.MoviesResponseDtoBuilder
+import com.nhariza.moviesapp.builder.dto.ReviewDtoBuilder
+import com.nhariza.moviesapp.builder.dto.ReviewsResponseDtoBuilder
 import com.nhariza.moviesapp.repository.datasource.model.MovieDto
+import com.nhariza.moviesapp.repository.datasource.model.ReviewDto
 import com.nhariza.moviesapp.view.base.BaseAndroidTest
 import com.nhariza.moviesapp.view.base.MockServerDispatcher
 import com.nhariza.moviesapp.view.main.MainActivity
@@ -27,7 +30,7 @@ class MovieDetailFragmentTest : BaseAndroidTest() {
 
     @Test
     fun showMovieDetail() {
-        val movies = mutableListOf(MovieDtoBuilder().build())
+        val movies = listOf(MovieDtoBuilder().build())
 
         mockMoviesData(movies)
         Espresso.onView(withId(R.id.recyclerview)).perform(
@@ -38,10 +41,35 @@ class MovieDetailFragmentTest : BaseAndroidTest() {
         assertDisplayed(movies[0].overview!!)
     }
 
-    private fun mockMoviesData(moviesListDto: List<MovieDto> = listOf(MovieDtoBuilder().build())) {
-        val responseDto = MoviesResponseDtoBuilder<List<MovieDto>>()
+    @Test
+    fun showMovieDetailWithReviews() {
+        val movies = listOf(MovieDtoBuilder().build())
+        val reviews = listOf(ReviewDtoBuilder().build())
+
+        mockMoviesData(movies, reviews)
+        Espresso.onView(withId(R.id.recyclerview)).perform(
+            RecyclerViewActions.actionOnItemAtPosition<MovieViewHolder>(0, ViewActions.click())
+        )
+
+        assertDisplayed(movies[0].title!!)
+        assertDisplayed(movies[0].releaseDate!!)
+        assertDisplayed(movies[0].overview!!)
+        assertDisplayed(R.string.movie_detail_review_title)
+    }
+
+    private fun mockMoviesData(
+        moviesListDto: List<MovieDto> = listOf(MovieDtoBuilder().build()),
+        reviewsListDto: List<ReviewDto>? = null
+    ) {
+        val moviesResponseDto = MoviesResponseDtoBuilder<List<MovieDto>>()
             .withResults(moviesListDto)
-        mockServer.dispatcher = MockServerDispatcher.RequestDispatcher(responseDto)
+        val responseReviewDto = ReviewsResponseDtoBuilder()
+            .withResults(reviewsListDto)
+        mockServer.dispatcher = MockServerDispatcher.RequestDispatcher(
+            moviesResponseDto,
+            "${moviesListDto[0].id}",
+            responseReviewDto
+        )
     }
 
 }
