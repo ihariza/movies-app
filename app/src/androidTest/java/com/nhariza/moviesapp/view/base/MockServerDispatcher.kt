@@ -2,7 +2,8 @@ package com.nhariza.moviesapp.view.base
 
 import com.google.gson.Gson
 import com.nhariza.moviesapp.builder.dto.MovieDtoBuilder
-import com.nhariza.moviesapp.builder.dto.ResponseDtoBuilder
+import com.nhariza.moviesapp.builder.dto.MoviesResponseDtoBuilder
+import com.nhariza.moviesapp.builder.dto.ReviewsResponseDtoBuilder
 import com.nhariza.moviesapp.repository.datasource.PathService
 import com.nhariza.moviesapp.repository.datasource.model.MovieDto
 import okhttp3.mockwebserver.Dispatcher
@@ -16,7 +17,9 @@ sealed class MockServerDispatcher {
      */
     class RequestDispatcher(
         private val moviesListDto: Any? =
-            ResponseDtoBuilder<List<MovieDto>>().withResults(listOf(MovieDtoBuilder().build()))
+            MoviesResponseDtoBuilder<List<MovieDto>>().withResults(listOf(MovieDtoBuilder().build())),
+        private val movieId: String = "movie_id",
+        private val reviewsListDto: ReviewsResponseDtoBuilder? = null
     ) : Dispatcher() {
 
         override fun dispatch(request: RecordedRequest): MockResponse {
@@ -25,6 +28,11 @@ sealed class MockServerDispatcher {
                     MockResponse()
                         .setResponseCode(200)
                         .setBody(Gson().toJson(moviesListDto))
+                }
+                PathService.GET_MOVIE_REVIEW.replace("{movie_id}", movieId) -> {
+                    MockResponse()
+                        .setResponseCode(200)
+                        .setBody(Gson().toJson(reviewsListDto))
                 }
                 else -> MockResponse().setResponseCode(400)
             }

@@ -1,6 +1,7 @@
 package com.nhariza.moviesapp.view.base
 
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.transition.MaterialContainerTransform
 import com.nhariza.moviesapp.R
 
 abstract class BaseFragment<Binding : ViewBinding, ViewModel : BaseViewModel> : Fragment() {
@@ -26,6 +28,11 @@ abstract class BaseFragment<Binding : ViewBinding, ViewModel : BaseViewModel> : 
         savedInstanceState: Bundle?
     ): View? {
         binding = getViewBinding()
+        sharedElementEnterTransition = MaterialContainerTransform().apply {
+            drawingViewId = R.id.nav_host_fragment
+            duration = 300
+            scrimColor = Color.TRANSPARENT
+        }
         return binding.root
     }
 
@@ -60,7 +67,8 @@ abstract class BaseFragment<Binding : ViewBinding, ViewModel : BaseViewModel> : 
         title: String,
         message: String? = null,
         actionName: String,
-        action: () -> Unit
+        action: () -> Unit,
+        actionCancel: (() -> Unit)? = null
     ) {
         with(context?.let { MaterialAlertDialogBuilder(it, R.style.AlertDialogTheme) }) {
             this?.setTitle(title)
@@ -71,8 +79,10 @@ abstract class BaseFragment<Binding : ViewBinding, ViewModel : BaseViewModel> : 
             }
             this?.setNegativeButton(getString(R.string.common_cancel)) { dialog, _ ->
                 dialog.dismiss()
+                actionCancel?.invoke()
             }
             this?.create()
+            this?.setOnCancelListener { actionCancel?.invoke() }
             this?.show()
         }
     }

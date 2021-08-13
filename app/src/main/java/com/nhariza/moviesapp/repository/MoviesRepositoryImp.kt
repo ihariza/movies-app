@@ -2,7 +2,9 @@ package com.nhariza.moviesapp.repository
 
 import com.nhariza.moviesapp.repository.datasource.MoviesService
 import com.nhariza.moviesapp.repository.exception.MoviesException
+import com.nhariza.moviesapp.repository.exception.ReviewsException
 import com.nhariza.moviesapp.repository.model.Movie
+import com.nhariza.moviesapp.repository.model.Review
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import java.util.*
@@ -27,6 +29,21 @@ class MoviesRepositoryImp(
                 }
             }
             else -> throw MoviesException(response.statusMessage)
+        }
+    }
+
+    override fun getReviews(movieId: Int): Flow<List<Review>> = flow {
+        val response = moviesService.getMovieReview(movieId)
+
+        when (response.statusCode) {
+            null -> {
+                if (response.results.isNullOrEmpty()) {
+                    throw ReviewsException()
+                } else {
+                    emit(response.results.toModel())
+                }
+            }
+            else -> throw ReviewsException()
         }
     }
 

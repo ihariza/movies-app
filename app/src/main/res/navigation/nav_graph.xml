@@ -11,6 +11,18 @@
         android:label="@string/app_name"
         tools:layout="@layout/movies_fragment">
 
+        <action
+            android:id="@+id/viewMovieDetail"
+            app:destination="@id/movieDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/movieDetailFragment"
+        android:name="com.nhariza.moviesapp.view.moviedetail.MovieDetailFragment"
+        android:label="MovieDetailFragment" >
+        <argument
+            android:name="movie"
+            app:argType="com.nhariza.moviesapp.repository.model.Movie" />
     </fragment>
 
 </navigation>

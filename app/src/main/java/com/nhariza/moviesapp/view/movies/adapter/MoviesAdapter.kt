@@ -1,26 +1,18 @@
-package com.nhariza.moviesapp.view.movies
+package com.nhariza.moviesapp.view.movies.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import com.bumptech.glide.RequestManager
 import com.nhariza.moviesapp.EnvironmentConfig
 import com.nhariza.moviesapp.FlavorEnvironmentConfig
 import com.nhariza.moviesapp.databinding.MovieItemBinding
 import com.nhariza.moviesapp.repository.model.Movie
 import org.koin.java.KoinJavaComponent.inject
 
-class MoviesAdapter internal constructor(
-    private val moviesListener: MovieListener?
-) : ListAdapter<Movie, MovieViewHolder>(MoviesDiffCallback()) {
+class MoviesAdapter : ListAdapter<Movie, MovieViewHolder>(MoviesDiffCallback()) {
 
-    private val glideRequestManager: RequestManager by inject(RequestManager::class.java)
     private val environmentConfig: EnvironmentConfig by inject(FlavorEnvironmentConfig::class.java)
-
-    fun interface MovieListener {
-        fun onMovieClicked(movie: Movie)
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
         val movieRowBinding = MovieItemBinding.inflate(
@@ -29,9 +21,7 @@ class MoviesAdapter internal constructor(
         )
         return MovieViewHolder(
             movieRowBinding,
-            glideRequestManager,
-            environmentConfig.imageUrl,
-            moviesListener
+            environmentConfig.imageUrl
         )
     }
 
@@ -39,6 +29,7 @@ class MoviesAdapter internal constructor(
         val movie = currentList[position]
         holder.bind(movie)
     }
+
 }
 
 class MoviesDiffCallback : DiffUtil.ItemCallback<Movie>() {
