@@ -21,6 +21,8 @@ object Versions {
 
     const val TEST_ARCH_CORE_VERSION = "2.1.0"
     const val TEST_COROUTINES_VERSION = "1.5.0"
+    const val TEST_RUNNER_VERSION = "1.4.0"
+    const val TEST_ORCHESTRATOR_VERSION = "1.4.0"
     const val TEST_FRAGMENT_VERSION = "1.3.5"
     const val TEST_MOCKK_VERSION = "1.11.0"
     const val TEST_TURBINE_VERSION = "0.5.2"
@@ -82,6 +84,8 @@ object TestLibs {
     const val arch_core = "androidx.arch.core:core-testing:${Versions.TEST_ARCH_CORE_VERSION}"
     const val coroutines =
         "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.TEST_COROUTINES_VERSION}"
+    const val runner = "androidx.test:runner:${Versions.TEST_RUNNER_VERSION}"
+    const val orchestrator = "androidx.test:orchestrator:${Versions.TEST_ORCHESTRATOR_VERSION}"
     const val mockk = "io.mockk:mockk:${Versions.TEST_MOCKK_VERSION}"
     const val turbine = "app.cash.turbine:turbine:${Versions.TEST_TURBINE_VERSION}"
 

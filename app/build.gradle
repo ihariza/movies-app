@@ -23,6 +23,11 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
+        // The following argument makes the Android Test Orchestrator run its
+        // "pm clear" command after each test invocation. This command ensures
+        // that the app's state is completely cleared between tests.
+        testInstrumentationRunnerArguments clearPackageData: 'true'
+
         buildConfigField("String", "API_KEY", "\"${System.getenv('API_KEY') ?: apiProperties['API_KEY']}\"")
     }
 
@@ -69,6 +74,7 @@ android {
 
     testOptions {
         animationsDisabled = true
+        execution 'ANDROIDX_TEST_ORCHESTRATOR'
     }
 }
 
@@ -101,6 +107,7 @@ dependencies {
     testImplementation TestLibs.turbine
 
     androidTestImplementation TestLibs.truth
+    androidTestImplementation TestLibs.runner
     androidTestImplementation TestLibs.espresso_intents
     androidTestImplementation TestLibs.mockk_android
     androidTestImplementation TestLibs.koin
@@ -112,6 +119,8 @@ dependencies {
     }
 
     debugImplementation TestLibs.fragment
+
+    androidTestUtil TestLibs.orchestrator
 
 }
 
