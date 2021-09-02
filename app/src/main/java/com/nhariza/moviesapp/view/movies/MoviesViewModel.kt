@@ -25,11 +25,8 @@ class MoviesViewModel(
         get() = _moviesState
     private val _moviesState = MutableStateFlow<MoviesState>(MoviesState.Loading)
 
-
-    fun initMovies() {
-        if (movies.size == 0) {
-            getMovies()
-        }
+    init {
+        getMovies()
     }
 
     fun getMovies() {
@@ -39,7 +36,9 @@ class MoviesViewModel(
                     _moviesState.value = MoviesState.Error {
                         viewThreshold = movies.size - PAGE_THRESHOLD
                         _moviesState.value = MoviesState.Success(movies.toList())
-                        initMovies()
+                        if (movies.size == 0) {
+                            getMovies()
+                        }
                     }
                 }
                 .collect {
