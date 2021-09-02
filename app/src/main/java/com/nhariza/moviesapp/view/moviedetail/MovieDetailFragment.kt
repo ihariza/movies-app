@@ -75,7 +75,7 @@ class MovieDetailFragment : BaseFragment<MovieDetailFragmentBinding, MovieDetail
         binding.headerImage.transitionName = "image_${movie.id}"
         binding.headerImage.load(
             "${environmentConfig.imageUrl}${movie.backdropPath}",
-            R.drawable.ic_launcher_foreground
+            R.drawable.ic_image_error
         ) {
             startPostponedEnterTransition()
         }

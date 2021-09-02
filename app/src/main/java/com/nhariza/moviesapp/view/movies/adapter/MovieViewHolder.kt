@@ -29,6 +29,7 @@ class MovieViewHolder(
             Glide.with(root)
                 .load("$baseImageUrl${movie.posterPath}")
                 .centerCrop()
+                .placeholder(R.mipmap.ic_launcher_round)
                 .error(R.mipmap.ic_launcher_round)
                 .into(image)
         }
