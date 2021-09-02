@@ -1,5 +1,5 @@
 object Versions {
-    const val GRADLE_TOOLS_VERSION = "4.2.2"
+    const val GRADLE_TOOLS_VERSION = "7.0.1"
 
     const val KOTLIN_VERSION = "1.5.20"
 
@@ -26,7 +26,7 @@ object Versions {
     const val TEST_TURBINE_VERSION = "0.5.2"
     const val TEST_TRUTH_VERSION = "1.4.0"
     const val TEST_ESPRESSO_VERSION = "3.4.0"
-    const val TEST_BARISTA_VERSION = "3.9.0"
+    const val TEST_BARISTA_VERSION = "4.1.0"
     const val TEST_MOCKWEBSERVER_VERSION = "4.9.0"
 }
 
@@ -86,14 +86,12 @@ object TestLibs {
     const val turbine = "app.cash.turbine:turbine:${Versions.TEST_TURBINE_VERSION}"
 
     const val truth = "androidx.test.ext:truth:${Versions.TEST_TRUTH_VERSION}"
-    const val espresso_core =
-        "androidx.test.espresso:espresso-core:${Versions.TEST_ESPRESSO_VERSION}"
     const val espresso_intents =
         "androidx.test.espresso:espresso-intents:${Versions.TEST_ESPRESSO_VERSION}"
 
     const val mockk_android = "io.mockk:mockk-android:${Versions.TEST_MOCKK_VERSION}"
     const val koin = "org.koin:koin-test:${Versions.KOIN_VERSION}"
-    const val barista = "com.schibsted.spain:barista:${Versions.TEST_BARISTA_VERSION}"
+    const val barista = "com.adevinta.android:barista:${Versions.TEST_BARISTA_VERSION}"
     const val navigation = "androidx.navigation:navigation-testing:${Versions.NAVIGATION_VERSION}"
     const val fragment = "androidx.fragment:fragment-testing:${Versions.TEST_FRAGMENT_VERSION}"
     const val mockWebServer =

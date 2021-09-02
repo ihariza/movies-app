@@ -4,17 +4,26 @@ plugins {
     id 'androidx.navigation.safeargs.kotlin'
 }
 
+def apiProperties = new Properties()
+def apiPropertiesFile = rootProject.file("api.properties")
+if (apiPropertiesFile.exists()) {
+    apiProperties.load(new FileInputStream(apiPropertiesFile))
+}
+
 android {
-    compileSdk 30
+    compileSdk 31
+    buildToolsVersion "31.0.0"
 
     defaultConfig {
         applicationId "com.nhariza.moviesapp"
         minSdk 21
-        targetSdk 30
+        targetSdk 31
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "API_KEY", "\"${System.getenv('API_KEY') ?: apiProperties['API_KEY']}\"")
     }
 
     sourceSets {
@@ -39,17 +48,12 @@ android {
         }
     }
 
+    kotlinOptions {
+        useIR = true
+    }
+
     buildFeatures {
         viewBinding true
-    }
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-
-    kotlinOptions {
-        jvmTarget = '1.8'
     }
 
     flavorDimensions("flavorDimen")
@@ -97,7 +101,6 @@ dependencies {
     testImplementation TestLibs.turbine
 
     androidTestImplementation TestLibs.truth
-    androidTestImplementation TestLibs.espresso_core
     androidTestImplementation TestLibs.espresso_intents
     androidTestImplementation TestLibs.mockk_android
     androidTestImplementation TestLibs.koin
@@ -115,5 +118,6 @@ dependencies {
 configurations.all {
     resolutionStrategy {
         force 'androidx.test:monitor:1.4.0'
+        force 'androidx.test:core:1.4.0'
     }
 }

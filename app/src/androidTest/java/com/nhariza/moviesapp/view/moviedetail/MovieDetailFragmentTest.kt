@@ -16,7 +16,7 @@ import com.nhariza.moviesapp.view.base.BaseAndroidTest
 import com.nhariza.moviesapp.view.base.MockServerDispatcher
 import com.nhariza.moviesapp.view.main.MainActivity
 import com.nhariza.moviesapp.view.movies.adapter.MovieViewHolder
-import com.schibsted.spain.barista.assertion.BaristaVisibilityAssertions.assertDisplayed
+import com.adevinta.android.barista.assertion.BaristaVisibilityAssertions.assertDisplayed
 import org.junit.Test
 
 class MovieDetailFragmentTest : BaseAndroidTest() {

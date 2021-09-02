@@ -14,9 +14,9 @@ import com.nhariza.moviesapp.view.main.MainActivity
 import com.nhariza.moviesapp.view.movies.adapter.MovieViewHolder
 import com.nhariza.moviesapp.view.util.SLEEP
 import com.nhariza.moviesapp.view.util.ViewUtils.Companion.waitForIdle
-import com.schibsted.spain.barista.assertion.BaristaRecyclerViewAssertions.assertRecyclerViewItemCount
-import com.schibsted.spain.barista.assertion.BaristaVisibilityAssertions.assertDisplayed
-import com.schibsted.spain.barista.assertion.BaristaVisibilityAssertions.assertNotDisplayed
+import com.adevinta.android.barista.assertion.BaristaRecyclerViewAssertions.assertRecyclerViewItemCount
+import com.adevinta.android.barista.assertion.BaristaVisibilityAssertions.assertDisplayed
+import com.adevinta.android.barista.assertion.BaristaVisibilityAssertions.assertNotDisplayed
 import org.junit.Test
 
 class MoviesFragmentTest : BaseAndroidTest() {
