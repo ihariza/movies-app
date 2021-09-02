@@ -27,7 +27,7 @@ class MovieViewHolder(
 
             image.transitionName = "image_${movie.id}"
             Glide.with(root)
-                .load("$baseImageUrl${movie.posterPath}")
+                .load("$baseImageUrl${movie.backdropPath}")
                 .centerCrop()
                 .placeholder(R.mipmap.ic_launcher_round)
                 .error(R.mipmap.ic_launcher_round)

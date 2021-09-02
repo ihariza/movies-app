@@ -42,7 +42,6 @@ class MovieDetailViewModelTest : BaseViewModelTest() {
                 assertEquals(MovieDetailState.Empty, expectItem())
                 assertEquals(MovieDetailState.SuccessMovie(movie), expectItem())
                 cancelAndConsumeRemainingEvents()
-                verify(exactly = 1) { moviesRepository.getReviews(any()) }
             }
         }
 
@@ -60,6 +59,7 @@ class MovieDetailViewModelTest : BaseViewModelTest() {
             movieDetailViewModel.movieDetailState.test {
                 movieDetailViewModel.loadMovie(movie)
                 assertEquals(MovieDetailState.Empty, expectItem())
+                movieDetailViewModel.getReviews()
                 assertEquals(MovieDetailState.SuccessMovie(movie), expectItem())
                 assertEquals(MovieDetailState.SuccessReviews(reviewsDto.toModel()), expectItem())
                 cancelAndConsumeRemainingEvents()
@@ -80,6 +80,7 @@ class MovieDetailViewModelTest : BaseViewModelTest() {
         movieDetailViewModel.movieDetailState.test {
             movieDetailViewModel.loadMovie(movie)
             assertEquals(MovieDetailState.Empty, expectItem())
+            movieDetailViewModel.getReviews()
             assertEquals(MovieDetailState.SuccessMovie(movie), expectItem())
             assert(expectItem() is MovieDetailState.ErrorReviews)
             cancelAndConsumeRemainingEvents()

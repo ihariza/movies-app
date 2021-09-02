@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.transition.MaterialArcMotion
 import com.google.android.material.transition.MaterialContainerTransform
 import com.nhariza.moviesapp.R
 
@@ -30,8 +31,8 @@ abstract class BaseFragment<Binding : ViewBinding, ViewModel : BaseViewModel> : 
         binding = getViewBinding()
         sharedElementEnterTransition = MaterialContainerTransform().apply {
             drawingViewId = R.id.nav_host_fragment
-            duration = 300
             scrimColor = Color.TRANSPARENT
+            setPathMotion(MaterialArcMotion())
         }
         return binding.root
     }
