@@ -3,6 +3,8 @@ package com.nhariza.moviesapp.view.moviedetail
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.transition.Transition
+import com.google.android.material.transition.MaterialContainerTransform
 import com.nhariza.moviesapp.EnvironmentConfig
 import com.nhariza.moviesapp.FlavorEnvironmentConfig
 import com.nhariza.moviesapp.R
@@ -60,6 +62,21 @@ class MovieDetailFragment : BaseFragment<MovieDetailFragmentBinding, MovieDetail
                 }
             }
         }
+
+        binding.ivBackButton.setOnClickListener {
+            onBackPressed()
+        }
+
+        (sharedElementEnterTransition as? MaterialContainerTransform)?.addListener(object :
+            Transition.TransitionListener {
+            override fun onTransitionEnd(transition: Transition) {
+                viewModel.getReviews()
+            }
+            override fun onTransitionResume(transition: Transition) { /* Nothing to do */ }
+            override fun onTransitionPause(transition: Transition) { /* Nothing to do */ }
+            override fun onTransitionCancel(transition: Transition) { /* Nothing to do */ }
+            override fun onTransitionStart(transition: Transition) { /* Nothing to do */ }
+        })
     }
 
     private fun setupRecyclerView() {
@@ -75,7 +92,7 @@ class MovieDetailFragment : BaseFragment<MovieDetailFragmentBinding, MovieDetail
         binding.headerImage.transitionName = "image_${movie.id}"
         binding.headerImage.load(
             "${environmentConfig.imageUrl}${movie.backdropPath}",
-            R.drawable.ic_launcher_foreground
+            R.drawable.ic_image_error
         ) {
             startPostponedEnterTransition()
         }

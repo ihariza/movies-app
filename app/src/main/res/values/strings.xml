@@ -1,14 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">MovieApp</string>
+    <string name="app_name" translatable="false">MovieApp</string>
 
-    <string name="common_cancel">Cancelar</string>
-    <string name="common_retry">Reintentar</string>
+    <string name="common_cancel">Cancel</string>
+    <string name="common_retry">Retry</string>
     <string name="common_error_title">¡Ups!</string>
-    <string name="common_error_subtitle">Seguramente sea cosa nuestra, pero por si acaso revisa tu conexión. ¡Gracias!</string>
+    <string name="common_error_subtitle">It\'s probably our thing, but just in case check your connection. Thanks!</string>
 
-    <string name="movies_no_overview">Sin descripción</string>
+    <string name="movies_title">Browse movies</string>
+    <string name="movies_no_overview">No overview</string>
+    <string name="movies_search">Search for movie title…</string>
 
-    <string name="movie_detail_vote_average">Valoración: %1$s</string>
-    <string name="movie_detail_review_title">Valoraciones</string>
+    <string name="movie_detail_vote_average">Vote average: %1$s</string>
+    <string name="movie_detail_review_title">Reviews</string>
 
 </resources>

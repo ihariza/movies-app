@@ -1,5 +1,5 @@
 object Versions {
-    const val GRADLE_TOOLS_VERSION = "4.2.2"
+    const val GRADLE_TOOLS_VERSION = "7.0.2"
 
     const val KOTLIN_VERSION = "1.5.20"
 
@@ -21,12 +21,14 @@ object Versions {
 
     const val TEST_ARCH_CORE_VERSION = "2.1.0"
     const val TEST_COROUTINES_VERSION = "1.5.0"
+    const val TEST_RUNNER_VERSION = "1.4.0"
+    const val TEST_ORCHESTRATOR_VERSION = "1.4.0"
     const val TEST_FRAGMENT_VERSION = "1.3.5"
     const val TEST_MOCKK_VERSION = "1.11.0"
     const val TEST_TURBINE_VERSION = "0.5.2"
     const val TEST_TRUTH_VERSION = "1.4.0"
     const val TEST_ESPRESSO_VERSION = "3.4.0"
-    const val TEST_BARISTA_VERSION = "3.9.0"
+    const val TEST_BARISTA_VERSION = "4.1.0"
     const val TEST_MOCKWEBSERVER_VERSION = "4.9.0"
 }
 
@@ -82,18 +84,18 @@ object TestLibs {
     const val arch_core = "androidx.arch.core:core-testing:${Versions.TEST_ARCH_CORE_VERSION}"
     const val coroutines =
         "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.TEST_COROUTINES_VERSION}"
+    const val runner = "androidx.test:runner:${Versions.TEST_RUNNER_VERSION}"
+    const val orchestrator = "androidx.test:orchestrator:${Versions.TEST_ORCHESTRATOR_VERSION}"
     const val mockk = "io.mockk:mockk:${Versions.TEST_MOCKK_VERSION}"
     const val turbine = "app.cash.turbine:turbine:${Versions.TEST_TURBINE_VERSION}"
 
     const val truth = "androidx.test.ext:truth:${Versions.TEST_TRUTH_VERSION}"
-    const val espresso_core =
-        "androidx.test.espresso:espresso-core:${Versions.TEST_ESPRESSO_VERSION}"
     const val espresso_intents =
         "androidx.test.espresso:espresso-intents:${Versions.TEST_ESPRESSO_VERSION}"
 
     const val mockk_android = "io.mockk:mockk-android:${Versions.TEST_MOCKK_VERSION}"
     const val koin = "org.koin:koin-test:${Versions.KOIN_VERSION}"
-    const val barista = "com.schibsted.spain:barista:${Versions.TEST_BARISTA_VERSION}"
+    const val barista = "com.adevinta.android:barista:${Versions.TEST_BARISTA_VERSION}"
     const val navigation = "androidx.navigation:navigation-testing:${Versions.NAVIGATION_VERSION}"
     const val fragment = "androidx.fragment:fragment-testing:${Versions.TEST_FRAGMENT_VERSION}"
     const val mockWebServer =

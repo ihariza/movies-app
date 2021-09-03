@@ -14,9 +14,9 @@ import com.nhariza.moviesapp.view.main.MainActivity
 import com.nhariza.moviesapp.view.movies.adapter.MovieViewHolder
 import com.nhariza.moviesapp.view.util.SLEEP
 import com.nhariza.moviesapp.view.util.ViewUtils.Companion.waitForIdle
-import com.schibsted.spain.barista.assertion.BaristaRecyclerViewAssertions.assertRecyclerViewItemCount
-import com.schibsted.spain.barista.assertion.BaristaVisibilityAssertions.assertDisplayed
-import com.schibsted.spain.barista.assertion.BaristaVisibilityAssertions.assertNotDisplayed
+import com.adevinta.android.barista.assertion.BaristaRecyclerViewAssertions.assertRecyclerViewItemCount
+import com.adevinta.android.barista.assertion.BaristaVisibilityAssertions.assertDisplayed
+import com.adevinta.android.barista.assertion.BaristaVisibilityAssertions.assertNotDisplayed
 import org.junit.Test
 
 class MoviesFragmentTest : BaseAndroidTest() {
@@ -36,6 +36,8 @@ class MoviesFragmentTest : BaseAndroidTest() {
         }
 
         mockMoviesData(movies)
+        launchActivity()
+        waitForIdle(SLEEP.LARGE)
         Espresso.onView(withId(R.id.recyclerview)).perform(
             RecyclerViewActions.scrollToPosition<MovieViewHolder>(19)
         )
@@ -47,6 +49,7 @@ class MoviesFragmentTest : BaseAndroidTest() {
     @Test
     fun showErrorDialog() {
         mockServer.dispatcher = MockServerDispatcher.ErrorDispatcher(401)
+        launchActivity()
         waitForIdle(SLEEP.MEDIUM)
         assertDisplayed(R.string.common_error_title)
         assertDisplayed(R.string.common_error_subtitle)
@@ -58,4 +61,7 @@ class MoviesFragmentTest : BaseAndroidTest() {
         mockServer.dispatcher = MockServerDispatcher.RequestDispatcher(responseDto)
     }
 
+    private fun launchActivity() {
+        activityScenario = ActivityScenario.launch(MainActivity::class.java)
+    }
 }

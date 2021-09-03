@@ -22,7 +22,8 @@ class ReviewViewHolder(private val binding: ReviewItemBinding) :
             Glide.with(root)
                 .load("${review.avatarPath?.removePrefix("/")}")
                 .centerCrop()
-                .error(R.drawable.ic_baseline_account_circle_24)
+                .placeholder(R.drawable.ic_account_circle_24)
+                .error(R.drawable.ic_account_circle_24)
                 .into(avatar)
         }
     }

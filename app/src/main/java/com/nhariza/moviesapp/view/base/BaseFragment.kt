@@ -30,7 +30,6 @@ abstract class BaseFragment<Binding : ViewBinding, ViewModel : BaseViewModel> : 
         binding = getViewBinding()
         sharedElementEnterTransition = MaterialContainerTransform().apply {
             drawingViewId = R.id.nav_host_fragment
-            duration = 300
             scrimColor = Color.TRANSPARENT
         }
         return binding.root

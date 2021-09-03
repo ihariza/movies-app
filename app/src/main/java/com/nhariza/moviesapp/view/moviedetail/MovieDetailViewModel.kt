@@ -21,10 +21,9 @@ class MovieDetailViewModel(private val moviesRepository: MoviesRepository) : Bas
     fun loadMovie(movie: Movie) {
         this.movie = movie
         _movieDetailState.value = MovieDetailState.SuccessMovie(movie)
-        getReviews()
     }
 
-    private fun getReviews() {
+    fun getReviews() {
         movie?.id?.let {
             doInBackground {
                 moviesRepository.getReviews(it)

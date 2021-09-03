@@ -7,7 +7,9 @@ import kotlinx.coroutines.flow.Flow
 
 interface MoviesRepository {
 
-    fun getMovies(): Flow<List<Movie>>
+    fun getMovies(page: Int): Flow<List<Movie>>
 
     fun getReviews(movieId: Int): Flow<List<Review>>
+
+    fun searchMovie(query: String?, page: Int): Flow<List<Movie>>
 }

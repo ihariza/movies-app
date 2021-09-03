@@ -19,4 +19,11 @@ interface MoviesService {
     suspend fun getMovieReview(
         @Path("movie_id") movieId: Int
     ): ReviewResponseDto
+
+    @GET(PathService.SEARCH_MOVIE)
+    suspend fun searchMovie(
+        @Query("query") query: String?,
+        @Query("page") page: Int,
+        @Query("language") language: String
+    ): MoviesResponseDto<List<MovieDto>?>
 }
