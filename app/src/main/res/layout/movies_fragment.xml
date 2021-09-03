@@ -5,23 +5,24 @@
     android:id="@+id/newsFragmentContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/gray_100"
     tools:context=".view.movies.MoviesFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/size_12"
         app:elevation="0dp">
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:layout_scrollFlags="scroll|snap|enterAlways"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:titleCentered="true"
-            app:titleTextAppearance="@style/SmallTitleGrayBoldCenter"
-            app:titleTextColor="@color/white" />
+            android:layout_height="100dp"
+            android:text="@string/movies_title"
+            android:paddingHorizontal="@dimen/size_20"
+            android:gravity="center_vertical"
+            style="@style/BigItemTitle"
+            app:layout_scrollFlags="scroll|snap|enterAlways" />
 
         <androidx.appcompat.widget.SearchView
             android:id="@+id/searchView"
@@ -29,7 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/size_16"
-            android:layout_marginHorizontal="@dimen/size_16"
+            android:layout_marginHorizontal="@dimen/size_20"
             app:layout_scrollFlags="scroll|snap|enterAlways"
             app:defaultQueryHint="@string/movies_search" />
 
@@ -40,7 +41,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
-        android:paddingVertical="@dimen/size_8"
+        android:paddingBottom="@dimen/size_12"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:listitem="@layout/movie_item" />
 

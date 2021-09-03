@@ -23,7 +23,6 @@ class MoviesFragment : BaseFragment<MoviesFragmentBinding, MoviesViewModel>() {
         MoviesFragmentBinding.inflate(layoutInflater)
 
     override fun initView() {
-        binding.toolbar.title = getString(R.string.app_name)
         setupRecyclerView()
     }
 
