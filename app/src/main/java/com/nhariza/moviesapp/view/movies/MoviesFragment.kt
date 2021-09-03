@@ -1,5 +1,6 @@
 package com.nhariza.moviesapp.view.movies
 
+import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -22,7 +23,6 @@ class MoviesFragment : BaseFragment<MoviesFragmentBinding, MoviesViewModel>() {
         MoviesFragmentBinding.inflate(layoutInflater)
 
     override fun initView() {
-        binding.toolbar.title = getString(R.string.app_name)
         setupRecyclerView()
     }
 
@@ -36,6 +36,17 @@ class MoviesFragment : BaseFragment<MoviesFragmentBinding, MoviesViewModel>() {
                 }
             }
         }
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                viewModel.queryRequest(query)
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                viewModel.queryRequest(newText)
+                return true
+            }
+        })
     }
 
     override fun onBackPressed() {
@@ -61,7 +72,6 @@ class MoviesFragment : BaseFragment<MoviesFragmentBinding, MoviesViewModel>() {
                 true
             }
         }
-
     }
 
     private fun showMovies(movies: List<Movie>) {

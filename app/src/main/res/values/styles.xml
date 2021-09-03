@@ -7,21 +7,31 @@
         <item name="cornerSize">50%</item>
     </style>
 
+    <style name="ShapeAppearanceOverlay.CardView" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">20%</item>
+    </style>
+
     <style name="SmallTitleGrayBoldCenter">
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:textSize">20sp</item>
     </style>
 
     <style name="AppTheme.SearchView" parent="Widget.AppCompat.SearchView">
-        <item name="android:textSize">14sp</item>
-        <item name="android:textColorPrimary">@color/white</item>
-        <item name="android:textColorHint">@color/gray_200</item>
-        <item name="android:tint">@color/white</item>
+        <item name="android:textColorPrimary">@color/black</item>
+        <item name="android:textCursorDrawable">@drawable/searchview_cursor</item>
+        <item name="android:textColorHint">@color/gray_500</item>
+        <item name="android:tint">@color/black</item>
+        <item name="iconifiedByDefault">false</item>
+        <item name="android:background">@drawable/bg_white_rounded</item>
+        <item name="android:backgroundTint">@color/white</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
     <style name="AlertDialogTheme" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
-        <item name="materialButtonStyle">@color/purple_500</item>
+        <item name="materialButtonStyle">@color/orange_100</item>
         <item name="materialAlertDialogTitleTextStyle">@style/TitleTextStyle</item>
         <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
         <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
@@ -32,8 +42,8 @@
     </style>
 
     <style name="PositiveButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
-        <item name="android:textColor">@color/purple_500</item>
-        <item name="rippleColor">@color/purple_700</item>
+        <item name="android:textColor">@color/orange_200</item>
+        <item name="rippleColor">@color/orange_700</item>
     </style>
 
     <style name="NegativeButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">

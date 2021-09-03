@@ -7,7 +7,7 @@ import org.koin.dsl.module
 
 val repositoryModule = module {
 
-    single<MoviesRepository> {
+    factory<MoviesRepository> {
         MoviesRepositoryImp(
             moviesService = get()
         )

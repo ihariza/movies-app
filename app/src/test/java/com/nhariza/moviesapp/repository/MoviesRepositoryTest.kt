@@ -15,6 +15,7 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.RelaxedMockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
@@ -25,13 +26,14 @@ import org.junit.Before
 import org.junit.Test
 import java.util.*
 
+@FlowPreview
 @ExperimentalCoroutinesApi
 class MoviesRepositoryTest {
 
     companion object {
         private const val PAGE = 1
+        private const val MOVIE_ID = 834232
         private val LANGUAGE = Locale.getDefault().toLanguageTag()
-        private val MOVIE_ID = 834232
     }
 
     @RelaxedMockK
@@ -80,7 +82,7 @@ class MoviesRepositoryTest {
                 moviesService.getPopularMovies(PAGE, LANGUAGE)
             } returns responseDtoBuilder.build()
 
-            val getMoviesFlow = moviesRepository.getMovies()
+            val getMoviesFlow = moviesRepository.getMovies(PAGE)
 
             getMoviesFlow
                 .catch {
@@ -97,7 +99,7 @@ class MoviesRepositoryTest {
                 moviesService.getPopularMovies(PAGE, LANGUAGE)
             } throws ClassCastException()
 
-            val getMoviesFlow = moviesRepository.getMovies()
+            val getMoviesFlow = moviesRepository.getMovies(PAGE)
 
             getMoviesFlow
                 .catch { assertTrue(it is ClassCastException) }
@@ -174,7 +176,7 @@ class MoviesRepositoryTest {
             moviesService.getPopularMovies(PAGE, LANGUAGE)
         } returns moviesResponseDtoBuilder.build()
 
-        val getMoviesFlow = moviesRepository.getMovies()
+        val getMoviesFlow = moviesRepository.getMovies(PAGE)
 
         getMoviesFlow.collect {
             coVerify(exactly = 1) { moviesService.getPopularMovies(PAGE, LANGUAGE) }

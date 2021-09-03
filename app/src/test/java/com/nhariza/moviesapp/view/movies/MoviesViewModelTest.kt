@@ -8,9 +8,10 @@ import com.nhariza.moviesapp.builder.model.MoviesListFlowBuilder
 import com.nhariza.moviesapp.repository.MoviesRepository
 import com.nhariza.moviesapp.repository.model.Movie
 import com.nhariza.moviesapp.repository.toModel
+import com.nhariza.moviesapp.view.common.Pager
 import io.mockk.coEvery
 import io.mockk.impl.annotations.RelaxedMockK
-import io.mockk.verify
+import io.mockk.impl.annotations.SpyK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
@@ -22,13 +23,21 @@ import kotlin.time.ExperimentalTime
 @ExperimentalCoroutinesApi
 class MoviesViewModelTest : BaseViewModelTest() {
 
+    companion object {
+        private const val PAGE = 1
+        private const val QUERY = "movie"
+    }
+
     @RelaxedMockK
     lateinit var moviesRepository: MoviesRepository
+
+    @SpyK(recordPrivateCalls = true)
+    var pager: Pager = Pager()
 
     private lateinit var moviesViewModel: MoviesViewModel
 
     override fun setup() {
-        moviesViewModel = MoviesViewModel(moviesRepository)
+        moviesViewModel = MoviesViewModel(moviesRepository, pager)
     }
 
     @Test
@@ -37,7 +46,7 @@ class MoviesViewModelTest : BaseViewModelTest() {
         val moviesFlow = MoviesListFlowBuilder().withMoviesListDto(moviesDto).build()
 
         coEvery {
-            moviesRepository.getMovies()
+            moviesRepository.getMovies(PAGE)
         } returns moviesFlow
 
         moviesViewModel.moviesState.test {
@@ -52,7 +61,7 @@ class MoviesViewModelTest : BaseViewModelTest() {
     fun `getMovies exception should change MoviesState to Error`() = runBlocking {
         val exception = UnknownHostException()
         coEvery {
-            moviesRepository.getMovies()
+            moviesRepository.getMovies(PAGE)
         } returns ExceptionFlowBuilder<List<Movie>>()
             .withException(exception)
             .build()
@@ -65,4 +74,38 @@ class MoviesViewModelTest : BaseViewModelTest() {
         }
     }
 
+    @Test
+    fun `queryRequest should change MoviesState to Success and return a movies list`() =
+        runBlocking {
+            val moviesDto = listOf(MovieDtoBuilder().build())
+            val moviesFlow = MoviesListFlowBuilder().withMoviesListDto(moviesDto).build()
+
+            coEvery {
+                moviesRepository.searchMovie(QUERY, PAGE)
+            } returns moviesFlow
+
+            moviesViewModel.moviesState.test {
+                moviesViewModel.queryRequest(QUERY)
+                assertEquals(MoviesState.Loading, expectItem())
+                assertEquals(MoviesState.Success(moviesDto.toModel()), expectItem())
+                cancelAndConsumeRemainingEvents()
+            }
+        }
+
+    @Test
+    fun `empty query should call getMovies`() = runBlocking {
+        val moviesDto = listOf(MovieDtoBuilder().build())
+        val moviesFlow = MoviesListFlowBuilder().withMoviesListDto(moviesDto).build()
+
+        coEvery {
+            moviesRepository.getMovies(PAGE)
+        } returns moviesFlow
+
+        moviesViewModel.moviesState.test {
+            moviesViewModel.queryRequest("")
+            assertEquals(MoviesState.Loading, expectItem())
+            assertEquals(MoviesState.Success(moviesDto.toModel()), expectItem())
+            cancelAndConsumeRemainingEvents()
+        }
+    }
 }
