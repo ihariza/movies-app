@@ -6,6 +6,7 @@
     <string name="common_error_subtitle">Seguramente sea cosa nuestra, pero por si acaso revisa tu conexión. ¡Gracias!</string>
 
     <string name="movies_no_overview">Sin descripción</string>
+    <string name="movies_search">Buscar…</string>
 
     <string name="movie_detail_vote_average">Valoración: %1$s</string>
     <string name="movie_detail_review_title">Valoraciones</string>

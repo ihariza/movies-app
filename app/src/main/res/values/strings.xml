@@ -8,6 +8,7 @@
     <string name="common_error_subtitle">It\'s probably our thing, but just in case check your connection. Thanks!</string>
 
     <string name="movies_no_overview">No overview</string>
+    <string name="movies_search">Search…</string>
 
     <string name="movie_detail_vote_average">Vote average: %1$s</string>
     <string name="movie_detail_review_title">Reviews</string>

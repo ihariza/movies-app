@@ -23,6 +23,16 @@
             app:titleTextAppearance="@style/SmallTitleGrayBoldCenter"
             app:titleTextColor="@color/white" />
 
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/searchView"
+            android:theme="@style/AppTheme.SearchView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/size_16"
+            android:layout_marginHorizontal="@dimen/size_16"
+            app:layout_scrollFlags="scroll|snap|enterAlways"
+            app:defaultQueryHint="@string/movies_search" />
+
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView
