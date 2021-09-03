@@ -63,6 +63,10 @@ class MovieDetailFragment : BaseFragment<MovieDetailFragmentBinding, MovieDetail
             }
         }
 
+        binding.ivBackButton.setOnClickListener {
+            onBackPressed()
+        }
+
         (sharedElementEnterTransition as? MaterialContainerTransform)?.addListener(object :
             Transition.TransitionListener {
             override fun onTransitionEnd(transition: Transition) {
