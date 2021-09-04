@@ -20,6 +20,8 @@
             android:text="@string/movies_title"
             android:paddingHorizontal="@dimen/size_30"
             android:gravity="center_vertical"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             style="@style/BigItemTitle"
             app:layout_scrollFlags="scroll|snap|enterAlways" />
 
