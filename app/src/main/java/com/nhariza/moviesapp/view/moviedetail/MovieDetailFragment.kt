@@ -1,10 +1,13 @@
 package com.nhariza.moviesapp.view.moviedetail
 
+import android.graphics.Color
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.Transition
 import com.google.android.material.transition.MaterialContainerTransform
+import com.google.android.material.transition.MaterialFadeThrough
 import com.nhariza.moviesapp.EnvironmentConfig
 import com.nhariza.moviesapp.FlavorEnvironmentConfig
 import com.nhariza.moviesapp.R
@@ -33,6 +36,7 @@ class MovieDetailFragment : BaseFragment<MovieDetailFragmentBinding, MovieDetail
 
     override fun initView() {
         val movie = args.movie
+        setupTransition()
         setupRecyclerView()
         viewModel.loadMovie(movie)
     }
@@ -41,21 +45,7 @@ class MovieDetailFragment : BaseFragment<MovieDetailFragmentBinding, MovieDetail
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.movieDetailState.collect { state ->
                 when (state) {
-                    is MovieDetailState.SuccessMovie -> {
-                        with(state.movie) {
-                            binding.title.text = title
-                            releaseDate?.let { binding.releaseDate.text = it }
-                            voteAverage?.let {
-                                binding.voteAverage.text =
-                                    getString(
-                                        R.string.movie_detail_vote_average,
-                                        String.format("%.1f", it)
-                                    )
-                            }
-                            binding.overview.text = overview
-                            loadHeaderImage(this)
-                        }
-                    }
+                    is MovieDetailState.SuccessMovie -> showMovieDetail(state.movie)
                     is MovieDetailState.SuccessReviews -> showReviews(state.reviews)
                     MovieDetailState.Empty -> postponeEnterTransition()
                     MovieDetailState.ErrorReviews -> hideReviews()
@@ -72,11 +62,33 @@ class MovieDetailFragment : BaseFragment<MovieDetailFragmentBinding, MovieDetail
             override fun onTransitionEnd(transition: Transition) {
                 viewModel.getReviews()
             }
-            override fun onTransitionResume(transition: Transition) { /* Nothing to do */ }
-            override fun onTransitionPause(transition: Transition) { /* Nothing to do */ }
-            override fun onTransitionCancel(transition: Transition) { /* Nothing to do */ }
-            override fun onTransitionStart(transition: Transition) { /* Nothing to do */ }
+
+            override fun onTransitionResume(transition: Transition) { /* Nothing to do */
+            }
+
+            override fun onTransitionPause(transition: Transition) { /* Nothing to do */
+            }
+
+            override fun onTransitionCancel(transition: Transition) { /* Nothing to do */
+            }
+
+            override fun onTransitionStart(transition: Transition) { /* Nothing to do */
+            }
         })
+    }
+
+    private fun setupTransition() {
+        postponeEnterTransition()
+
+        sharedElementEnterTransition = MaterialContainerTransform().apply {
+            drawingViewId = R.id.nav_host_fragment
+            scrimColor = Color.TRANSPARENT
+            setAllContainerColors(Color.WHITE)
+        }
+
+        enterTransition = MaterialFadeThrough().apply {
+            removeTarget(R.id.icon)
+        }
     }
 
     private fun setupRecyclerView() {
@@ -85,6 +97,19 @@ class MovieDetailFragment : BaseFragment<MovieDetailFragmentBinding, MovieDetail
         with(binding.recyclerview) {
             this.layoutManager = layoutManager
             this.adapter = reviewsAdapter
+        }
+    }
+
+    private fun showMovieDetail(movie: Movie) {
+        with(movie) {
+            binding.title.text = title
+            releaseDate?.let { binding.releaseDate.text = it }
+            voteAverage?.let {
+                binding.voteAverage.text =
+                    getString(R.string.movie_detail_vote_average, String.format("%.1f", it))
+            }
+            binding.overview.text = overview
+            loadHeaderImage(this)
         }
     }
 

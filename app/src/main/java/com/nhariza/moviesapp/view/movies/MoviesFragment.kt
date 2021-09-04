@@ -1,9 +1,12 @@
 package com.nhariza.moviesapp.view.movies
 
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.transition.MaterialFadeThrough
+import com.google.android.material.transition.MaterialSharedAxis
 import com.nhariza.moviesapp.R
 import com.nhariza.moviesapp.databinding.MoviesFragmentBinding
 import com.nhariza.moviesapp.repository.model.Movie
@@ -23,6 +26,7 @@ class MoviesFragment : BaseFragment<MoviesFragmentBinding, MoviesViewModel>() {
         MoviesFragmentBinding.inflate(layoutInflater)
 
     override fun initView() {
+        setupTransition()
         setupRecyclerView()
     }
 
@@ -53,6 +57,14 @@ class MoviesFragment : BaseFragment<MoviesFragmentBinding, MoviesViewModel>() {
         requireActivity().finish()
     }
 
+    private fun setupTransition() {
+        postponeEnterTransition()
+        view?.doOnPreDraw { startPostponedEnterTransition() }
+
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
+    }
+
     private fun setupRecyclerView() {
         val layoutManager = LinearLayoutManager(context)
 
@@ -65,12 +77,6 @@ class MoviesFragment : BaseFragment<MoviesFragmentBinding, MoviesViewModel>() {
                     viewModel.checkRequireNewPage(layoutManager.findLastVisibleItemPosition())
                 }
             })
-
-            postponeEnterTransition()
-            viewTreeObserver.addOnPreDrawListener {
-                startPostponedEnterTransition()
-                true
-            }
         }
     }
 
