@@ -14,7 +14,7 @@ class MoviesViewModel(
     private val pager: Pager
 ) : BaseViewModel() {
 
-    private var query: String? = null
+    private var query: String? = ""
     private val movies = mutableListOf<Movie>()
 
     val moviesState: StateFlow<MoviesState>
