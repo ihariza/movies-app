@@ -41,6 +41,7 @@
         android:layout_height="match_parent"
         android:clipToPadding="false"
         android:paddingBottom="@dimen/size_12"
+        android:transitionGroup="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:listitem="@layout/movie_item" />
 
