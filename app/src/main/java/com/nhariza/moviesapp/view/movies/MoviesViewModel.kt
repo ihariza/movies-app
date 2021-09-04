@@ -39,10 +39,10 @@ class MoviesViewModel(
     }
 
     fun queryRequest(newQuery: String?) {
-        if (query == newQuery) {
+        if (query == newQuery?.trim()) {
             return
         }
-        query = newQuery
+        query = newQuery?.trim()
         movies.clear()
         pager.reset()
         if (query.isNullOrBlank()) {
